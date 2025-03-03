@@ -162,6 +162,16 @@ This project was inspired by [someshkar/whois-api](https://github.com/someshkar/
 ##### Contributors
 
 <!-- readme: contributors -start -->
+<table>
+<tr>
+    <td align="center">
+        <a href="https://github.com/obaraelijah">
+            <img src="https://avatars.githubusercontent.com/u/1862727?v=4" width="80;" alt="obaraelijah"/>
+            <br />
+            <sub><b>Elijah Samson</b></sub>
+        </a>
+    </td></tr>
+</table>
 <!-- readme: contributors -end -->
 
 ##### Sponsors
