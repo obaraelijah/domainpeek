@@ -1,36 +1,72 @@
 package main
 
 import (
+	"embed"
 	"fmt"
+	"io/fs"
+	"log"
 	"net/http"
+	"os"
+	"strings"
 
-	"github.com/domainr/whois"
+	"github.com/obaraelijah/domainpeek/api"
 )
 
+//go:embed dist/*
+var staticAssets embed.FS
+
 func main() {
-	http.HandleFunc("/lookup", func(w http.ResponseWriter, r *http.Request) {
-		domain := r.URL.Query().Get("domain")
-		if domain == "" {
-			http.Error(w, "Missing 'domain' parameter", http.StatusBadRequest)
+	// Create a sub-directory filesystem from the embedded files
+	subFS, err := fs.Sub(staticAssets, "dist")
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	// Create a file server for the sub-directory filesystem
+	embeddedServer := http.FileServer(http.FS(subFS))
+
+	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		path := strings.TrimPrefix(r.URL.Path, "/")
+
+		// Serve embedded static files for the root
+		if path == "" {
+			embeddedServer.ServeHTTP(w, r)
 			return
 		}
 
-		request, err := whois.NewRequest(domain)
-		if err != nil {
-			http.Error(w, "Invalid domain", http.StatusBadRequest)
+		// Serve embedded static files if path starts with "assets"
+		if strings.HasPrefix(path, "assets") {
+			embeddedServer.ServeHTTP(w, r)
 			return
 		}
 
-		response, err := whois.DefaultClient.Fetch(request)
-		if err != nil {
-			http.Error(w, "WHOIS lookup failed", http.StatusInternalServerError)
-			return
+		// Handle API requests
+		// Check if it's a domain lookup or a multi-domain lookup
+		if path == "multi" {
+			api.MultiHandler(w, r)
+		} else {
+			api.MainHandler(w, r)
 		}
-
-		w.Header().Set("Content-Type", "text/plain")
-		fmt.Fprintf(w, "%s", response.Body)
 	})
 
-	fmt.Println("Server starting on :8080...")
-	http.ListenAndServe(":8080", nil)
+	// Choose the port to start server on
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "8080"
+	}
+
+	serverAddress := fmt.Sprintf(":%s", port)
+
+	asciiArt := `
+  ____                        _       ____            _    
+ |  _ \  ___  _ __ ___   __ _(_)_ __ |  _ \ ___  ___| | __
+ | | | |/ _ \| '_ ' _ \ / _' | | '_ \| |_) / _ \/ _ \ |/ /
+ | |_| | (_) | | | | | | (_| | | | | |  __/  __/  __/   < 
+ |____/ \___/|_| |_| |_|\__,_|_|_| |_|_|   \___|\___|_|\_\
+                                                          
+`
+
+	log.Println(asciiArt)
+	log.Printf("\nWelcome to DomainPeek - WHOIS Lookup Service.\nApp up and running at %s", serverAddress)
+	log.Fatal(http.ListenAndServe(serverAddress, nil))
 }
