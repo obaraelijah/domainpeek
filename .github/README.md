@@ -2,20 +2,19 @@
 <p align="center">
 <i>Free & Open Source WHOIS Lookup Service</i>
 <br />
-<b>🌐 <a href="https:/domainseek.net/">domainseek.as93.net</a></b><br />
 </p>
 
 ---
 
 ## API Usage
 
-> **TL;DR** Get the WHOIS records for a site: `curl https:/domainseek.net/example.com`
+> **TL;DR** Get the WHOIS records for a site: `curl https:/domainpeek.net/example.com`
 
-For detailed request and response schemas, you can reference the [domainseek API Spec]()
+For detailed request and response schemas, you can reference the [domainpeek API Spec]()
 
 ### Base URL
 
-The base URL for the public API is [`domainseek.as93.net`](https:/domainseek.net)
+The base URL for the public API is [`domainpeek.as93.net`](https:/domainpeek.net)
 
 If you're self-hosting (reccomended) then replace this with your own base URL.
 
@@ -74,12 +73,12 @@ curl "https://your-api-url.com/multi?domains=example.com,example.net"
 
 Click the button below to deploy to Vercel 👇
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fobaraelijah%2Fdomainseek&demo-title=domainseek%20Demo&demo-url=https%3A%2F%2Fdomainseek.as93.net&demo-image=https%3A%2F%2Fi.ibb.co%2FJ5r1zCP%2Fdomainseek-square.png)
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fobaraelijah%2Fdomainpeek&demo-title=domainpeek%20Demo&demo-url=https%3A%2F%2Fdomainpeek.as93.net&demo-image=https%3A%2F%2Fi.ibb.co%2FJ5r1zCP%2Fdomainpeek-square.png)
 
 #### Option 2: Docker
 
 ```shell
-docker run -p 8080:8080 obaraelijah/domainseek
+docker run -p 8080:8080 obaraelijah/domainpeek
 ```
 
 #### Option 3: Binary
@@ -89,8 +88,8 @@ Head to the [Releases Tab](/releases), download the pre-built executable for you
 #### Option 4: Build from Source
 
 Follow the setup instructions in the [Development](#development) section.<br>
-Then run `go build -a -installsuffix cgo -o domainseek .` to generate the binary for your system.<br>
-You'll then be able to execute the newly built `./domainseek` file directly to start the application.
+Then run `go build -a -installsuffix cgo -o domainpeek .` to generate the binary for your system.<br>
+You'll then be able to execute the newly built `./domainpeek` file directly to start the application.
 
 ---
 
@@ -99,8 +98,8 @@ You'll then be able to execute the newly built `./domainseek` file directly to s
 Prerequisites: You'll need [Go](https://go.dev/) and [Node](https://nodejs.org/) installed. You will likley also want [Git](https://git-scm.com/) and/or [Docker](https://www.docker.com/).
 
 ```
-git clone git@github.com:obaraelijah/domainseek.git
-cd domainseek
+git clone git@github.com:obaraelijah/domainpeek.git
+cd domainpeek
 go get
 npm install
 npm run build
@@ -108,7 +107,7 @@ npm run build
 
 Then run either `npx vercel dev`, or `go run main.go`
 
-Alternativley, build the Docker container with `docker build -t domainseek .`
+Alternativley, build the Docker container with `docker build -t domainpeek .`
 
 ---
 
@@ -122,6 +121,6 @@ Alternativley, build the Docker container with `docker build -t domainseek .`
 
 ## License
 
-> _**[obaraelijah/domainseek](https://github.com/obaraelijah/domainseek)** is licensed under [MIT](https://github.com/obaraelijah/domainseek/blob/HEAD/LICENSE) © [Elijah Samson](https://elijahobara.com) 2025._<br>
+> _**[obaraelijah/domainpeek](https://github.com/obaraelijah/domainpeek)** is licensed under [MIT](https://github.com/obaraelijah/domainpeek/blob/HEAD/LICENSE) © [Elijah Samson](https://elijahobara.com) 2025._<br>
 > <sup align="right">For information, see <a href="https://tldrlegal.com/license/mit-license">TLDR Legal > MIT</a></sup>
 
