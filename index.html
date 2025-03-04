@@ -5,12 +5,28 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <meta name="description" content="Who Dat - Free and Open Source WHOIS Lookup API. Easily find the owner of any domain." />
+        <meta name="description" content="Domainpeek - Free and Open Source WHOIS Lookup API. Easily find the owner of any domain." />
         <meta name="keywords" content="WHOIS, API, Domain Lookup, Free WHOIS API, Open Source, Domain Owner, DNS Lookup" />
         <meta name="author" content="Elijah Samson" />
 
+        <!-- Open Graph / Facebook Meta Tags -->
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://domainpeek.net/" />
+        <meta property="og:title" content="Domainpeek - Free & Open Source WHOIS Lookup API" />
+        <meta property="og:description" content="Domainpeek - Free and Open Source WHOIS Lookup API. Find the owner of any domain easily." />
+        <meta property="og:image" content="/domainpeek.png" />
 
+        <!-- Twitter Meta Tags -->
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta property="twitter:domain" content="domainpeek.net" />
+        <meta property="twitter:url" content="https://domainpeek.net/" />
+        <meta name="twitter:title" content="Domainpeek - Free & Open Source WHOIS Lookup API" />
+        <meta name="twitter:description" content="Domainpeek - Free and Open Source WHOIS Lookup API. Find the owner of any domain easily." />
+        <meta name="twitter:image" content="/domainpeek.png" />
+
+        <link rel="icon" type="image/svg+xml" href="/domainpeek-square.png" />
         <title>Domainpeek - Free & Open Source WHOIS Lookup API</title>
+        <script defer data-domain="domainpeek.net" src="https://no-track.net/js/script.js"></script>
 
         <style>html {background: #000; color: #FFF; } </style>
     </head>
@@ -19,13 +35,13 @@
         <!-- Page title and navigation -->
         <header>
         <div class="left">
-            <h1>Domainpeek ?</h1>
+            <h1>Domainpeek?</h1>
             <p>Free & Open Source WHOIS Lookup Service</p>
         </div>
         <nav>
-            <a href="#">Public API</a>
-            <a href="#">Self-Hosting</a>
-            <a href="#">GitHub</a>
+            <a href="/docs.html">Public API</a>
+            <a href="https://github.com/obaraelijah/domainpeek#deployment">Self-Hosting</a>
+            <a href="https://github.com/obaraelijah/domainpeek">GitHub</a>
         </nav>
         </header>
 
@@ -37,39 +53,66 @@
             <button type="submit">Lookup</button>
         </form>
         <div x-show="result">
-            <h3>Result:</h3>
-            <pre x-text="result"></pre>
+            <h3>Results</h3>
+            <button class="small toggle" @click="toggleFormat" x-text="showFormatted ? 'Show Raw' : 'Show Formatted'"></button>
+            <div x-show="showFormatted && formattedResult">
+                <template x-for="section in (formattedResult || [])" class="result-section">
+                <div>
+                <h4 x-text="section.lbl"></h4>
+                <ul class="row">
+                    <template x-for="item in section.val">
+                    <li>
+                        <span class="row-lbl" x-text="item.lbl"></span>
+                        <template x-if="Array.isArray(item.val)">
+                        <span class="row-val row-val-list">
+                            <template x-for="subItem in item.val">
+                            <span class="sub-item" x-text="subItem"></span>
+                            </template>
+                        </span>
+                        <span class="row-val row-val-list" x-text="item.val.join(', ')"></span>
+                        </template>
+                        <template x-if="!Array.isArray(item.val)">
+                        <span class="row-val" x-text="item.val"></span>
+                        </template>
+                    </li>
+                    </template>
+                </ul>
+                </div>
+                </template>
             </div>
-            <div x-show="error" style="color: red;">
-                <p x-text="error"></p>
-            </div>
+            <pre x-show="!showFormatted" x-text="result"></pre>
+        </div>
+        <div x-show="error" style="color: red;">
+            <p x-text="error"></p>
+        </div>
         </section>
+
 
         <!-- API Docs -->
         <section class="api">
-        <h2>Public API</h2>
-        <p>
-            Our public API is free to use without needing any authentication or CORS headers.
-        </p>
-        <code>curl https://domainpeek.net/example.com</code>
-        <p>
-            <a href="#">View API Documentation</a>
-        </p>
+            <h2>Public API</h2>
+                <p>
+                    Our public API is free to use without needing any authentication or CORS headers.
+                </p>
+                <code>curl https://domainpeek.net/example.com</code>
+                <p>
+                    <a href="https://github.com/obaraelijah/domainpeek#api-usage">View API Documentation</a>
+                </p>
         </section>
 
         <!-- Self-Hosting Docs -->
         <section class="host">
-        <h2>Self-Hosting</h2>
-        <p>
-            Self-hosting Who Dat is easy!
-            Either pull the Docker image, use the 1-click Vercel deploy, or the download or build the binary yourself.
-        </p>
-        <code>docker run -p 8080:8080 obaraelijah/domainpeek</code>
-        <p>Or</p>
-        <a><button class="small">1-Click Deploy to Vercel</button></a>
-        <p>
-            <a href="#">View Self-Hosting Documentation</a>
-        </p>
+            <h2>Self-Hosting</h2>
+            <p>
+                Self-hosting Domainpeek is easy!
+                Either pull the Docker image, use the 1-click Vercel deploy, or the download or build the binary yourself.
+            </p>
+            <code>docker run -p 8080:8080 obaraelijah/domainpeek</code>
+            <p>Or</p>
+            <a><button class="small">1-Click Deploy to Vercel</button></a>
+            <p>
+                <a href="https://github.com/obaraelijah/domainpeek#deployment">View Self-Hosting Documentation</a>
+            </p>
         </section>
 
         <!-- Footer -->
